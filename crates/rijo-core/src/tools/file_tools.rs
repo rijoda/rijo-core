@@ -1111,9 +1111,14 @@ impl SearchFilesTool {
             Err(e) => return tool_error(format!("Invalid regex pattern: {e}")),
         };
         let include_glob = include.and_then(|g| glob::Pattern::new(g).ok());
+        // The ripgrep path is capped by `output_capped`; the fallback must enforce
+        // the same byte budget, or a file with one enormous matching line returns
+        // it whole (measured on a system without `rg`).
+        let mut total_bytes = 0usize;
+        let mut truncated = false;
 
         if let Ok(entries) = walk_files(path) {
-            for entry in entries {
+            'files: for entry in entries {
                 if results.len() >= limit {
                     break;
                 }
@@ -1130,15 +1135,26 @@ impl SearchFilesTool {
                         if !re.is_match(line) {
                             continue;
                         }
-                        match output {
-                            "count" => results.push(format!("{}:{}", entry, line_no + 1)),
-                            // One path per matching file.
-                            "files_only" => {
-                                results.push(entry.clone());
-                                break;
+                        // One path per matching file.
+                        if output == "files_only" {
+                            if total_bytes + entry.len() + 1 > SEARCH_OUTPUT_BYTES {
+                                truncated = true;
+                                break 'files;
                             }
-                            _ => results.push(format!("{}:{}:{}", entry, line_no + 1, line)),
+                            total_bytes += entry.len() + 1;
+                            results.push(entry.clone());
+                            break;
                         }
+                        let rendered = match output {
+                            "count" => format!("{}:{}", entry, line_no + 1),
+                            _ => format!("{}:{}:{}", entry, line_no + 1, line),
+                        };
+                        if total_bytes + rendered.len() + 1 > SEARCH_OUTPUT_BYTES {
+                            truncated = true;
+                            break 'files;
+                        }
+                        total_bytes += rendered.len() + 1;
+                        results.push(rendered);
                         if results.len() >= limit {
                             break;
                         }
@@ -1147,9 +1163,14 @@ impl SearchFilesTool {
             }
         }
 
+        let mut matches = results.join("\n");
+        if truncated {
+            matches.push_str("\n[Search output truncated at 1,000,000 bytes]");
+        }
         json!({
-            "matches": results.join("\n"),
-            "count": results.len()
+            "matches": matches,
+            "count": results.len(),
+            "truncated": truncated
         })
         .to_string()
     }

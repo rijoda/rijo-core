@@ -29,6 +29,9 @@ All notable changes to Rijo Core. Format follows
 
 ### Fixed
 
+- **The `search_files` fallback honors the output budget.** Without ripgrep, one huge
+  matching line was returned whole; the fallback now caps at 1,000,000 bytes and reports
+  `truncated`, like the ripgrep path.
 - **`router.max_tools` was silently ignored** — the router always used the ONNX bundle's
   cap. `RouterSession::set_max_tools` now applies the config value (default 6); the
   always-keep tools are added after the cap.
