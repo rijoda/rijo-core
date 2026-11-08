@@ -17,7 +17,7 @@
 
 set -euo pipefail
 
-REPO="rijoda/rijo-code"
+REPO="rijoda/rijo-core"
 REPO_URL="https://github.com/${REPO}"
 PREFIX="${RIJO_PREFIX:-$HOME/.local/bin}"
 MODE="source"

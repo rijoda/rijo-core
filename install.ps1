@@ -11,7 +11,7 @@
       load-dynamic, so the runtime is loaded at start-up; without the DLL the
       brain and the router cannot load. On Linux the runtime is fetched at build
       time, on Windows it ships next to the binary - that is the trade the
-      per-target feature split makes (see docs/GOAL-100.md, section Z).
+      per-target feature split makes (see docs/INSTALL.md).
     - the embedding model (~130 MB) is pre-downloaded so the first turn never
       waits for it.
 
