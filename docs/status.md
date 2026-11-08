@@ -50,7 +50,7 @@ All numbers were measured on real runs; the scripts and fixtures are in `data/` 
   its own `TuiEvent`.
 - **Repository split** — this repository contains only the open engine, CLI and TUI. The
   closed desktop workbench lives in `rijoda/rijo-code`.
-- **Proof** — `cargo test -p rijo-core -p rijo-tui`: 486 passed, 6 ignored;
+- **Proof** — `cargo test -p rijo-core -p rijo-tui`: 485 passed, 7 ignored;
   `cargo clippy --workspace --all-targets -- -D warnings` clean;
   `cargo tree -p rijo-core` has no UI dependency.
 - **CI** — the job **core only (open workspace)** runs `cargo check -p rijo-core` and

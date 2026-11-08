@@ -23,9 +23,9 @@ const S2_PAPER: &str = "https://api.semanticscholar.org/graph/v1/paper";
 /// arXiv asks for a descriptive agent; a bare reqwest default is what gets rate
 /// limited first.
 const UA: &str = concat!(
-    "rijo-code/",
+    "rijo-core/",
     env!("CARGO_PKG_VERSION"),
-    " (+https://github.com/rijoda/rijo-code)"
+    " (+https://github.com/rijoda/rijo-core)"
 );
 const DEFAULT_CACHE_TTL: u64 = 24 * 60 * 60;
 

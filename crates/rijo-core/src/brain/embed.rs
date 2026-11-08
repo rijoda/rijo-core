@@ -291,6 +291,7 @@ mod cache_tests {
     /// model is usable, not just present. It changes the process working
     /// directory, hence the env lock shared with the other tests here.
     #[test]
+    #[ignore = "downloads the embedding model; run with --ignored on a machine with network or a warm cache"]
     fn embedding_from_another_directory_reuses_the_shared_cache() {
         let _guard = lock();
         let tmp = tempfile::tempdir().unwrap();
