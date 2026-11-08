@@ -177,9 +177,6 @@ More detail: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 All numbers were measured on real runs; the caveats and the original measurement records
 are in [`docs/status.md`](docs/status.md) and [`docs/history/`](docs/history/README.md).
 
-> The earlier `188×–1037×` tool-latency claim is **retired**: it compared a warm Rijo call
-> with single-shot Hermes calls. The fair warm run is in [`bench/README.md`](bench/README.md).
-
 ---
 
 ## Safety and honest limits
