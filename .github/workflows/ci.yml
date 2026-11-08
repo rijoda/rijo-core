@@ -20,11 +20,9 @@ on:
       - ".hermes/**"
   pull_request:
 
-# A burst of pushes (four in one evening on 2026-10-13) started four full
-# pipelines; only the newest one is signal.
-concurrency:
-  group: ci-${{ github.ref }}
-  cancel-in-progress: true
+# No `concurrency` group for now: a hosted-runner job was left in a stale
+# in_progress state after its timeout, and the pending run could not start.
+# Re-enable once the runner behaviour is understood.
 
 env:
   CARGO_TERM_COLOR: always
