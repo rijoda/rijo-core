@@ -62,7 +62,10 @@ All numbers were measured on real runs; the scripts and fixtures are in `data/` 
 - **The guard is a text heuristic, not a sandbox.** An interpreter switch, a dropped script,
   base64 or runtime assembly gets past it. The real boundary is the Rijo Box.
 - **The brain has no graph layer:** the `edges` table exists but nothing writes to it.
-- **CI is new here.** The private development repository had a GitHub Actions billing\n  block since 2026-10-13; this public repository runs the same workflow. Local runs remain\n  the source of truth until the first green matrix is recorded.
+- **CI is green here.** The first public matrix passed on Linux and Windows (run
+  `42502279726`, 2026-11-08), including the *core only (open workspace)* job. The private
+  development repository had a GitHub Actions billing block since 2026-10-13; local runs
+  remain the source of truth for the performance numbers.
 - **The TUI is frozen** and will be rebuilt, not extended.
 
 ## Next after the cleanup

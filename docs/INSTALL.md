@@ -127,4 +127,7 @@ CI (`.github/workflows/ci.yml`) builds and tests on every push/PR. A tag `v*`
 triggers `.github/workflows/release.yml`, which attaches the binary plus its
 SHA256 to the release.
 
-> **Status 2026-11-08:** this public repository runs the CI workflow in\n> `.github/workflows/ci.yml`. The private development repository had been blocked by a\n> billing/spending limit; local `cargo test` is still the quickest signal.
+> **Status 2026-11-08:** this public repository runs the CI workflow in
+> `.github/workflows/ci.yml` (green on Linux and Windows). The private development
+> repository had been blocked by a billing/spending limit; local `cargo test` is still the
+> quickest signal.
