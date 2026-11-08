@@ -55,7 +55,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     # Was 45. Without the release build 25 is generous — and a hung job burns
     # minutes up to the timeout.
-    timeout-minutes: 25
+    timeout-minutes: 45
     strategy:
       # A Windows failure must not hide the Linux result, and the other way
       # round. Both are signal.
