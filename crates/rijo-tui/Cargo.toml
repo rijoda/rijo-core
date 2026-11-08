@@ -1,0 +1,30 @@
+[package]
+name = "rijo-tui"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+homepage.workspace = true
+authors.workspace = true
+rust-version.workspace = true
+description = "Rijo Code terminal UI (frozen) — one frontend of the open Rijo Core engine"
+
+[dependencies]
+rijo-core = { version = "0.1.0", path = "../rijo-core" }
+tokio = { version = "1", features = ["full"] }
+ratatui = "0.30"
+crossterm = "0.29"
+tui-panel-select = "0.1.6"
+nucleo = "0.5"
+syntect = "5"
+textwrap = "0.16"
+serde_json = "1"
+base64 = "0.22"
+url = "2"
+tracing = "0.1"
+
+[dev-dependencies]
+tempfile = "3"
+
+[lints]
+workspace = true

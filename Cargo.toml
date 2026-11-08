@@ -1,0 +1,45 @@
+# The open workspace: Rijo Core, the `rijo` CLI and the frozen TUI.
+#
+# The closed Rijo Code desktop workbench is a separate repository and is not part
+# of this tree. This workspace must build and publish without Tauri, WebView2 or a
+# UI toolchain, so "open core, closed workbench" is a property of the build.
+[workspace]
+members = ["crates/rijo-cli", "crates/rijo-core", "crates/rijo-tui"]
+resolver = "2"
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/rijoda/rijo-core"
+homepage = "https://github.com/rijoda/rijo-core"
+authors = ["Rijoda Labs"]
+rust-version = "1.88"
+
+# A release build must be clippy-clean (`-D warnings`), so the few lint classes
+# that are deliberate here are allowed once, centrally, with a reason — instead
+# of scattering `#[allow]` across the tree.
+[workspace.lints.clippy]
+# Test helpers build a `Config`/`AppState` and then tweak a field or two; a
+# full struct literal for a 20-field type would be noisier than the assignment.
+field_reassign_with_default = "allow"
+# Tests (and one production site) hold a `std::sync::MutexGuard` across an
+# `.await` on purpose: the guard IS the isolation for process-wide state (env
+# vars, the provider-cooldown map). An async lock would not change what is
+# guarded.
+await_holding_lock = "allow"
+# Internally used tuple maps / builder return types are deliberately compact;
+# a type alias would not add information at the call sites.
+type_complexity = "allow"
+# `TuiEvent` carries one large variant by design — the event is moved, not
+# stored in bulk; boxing it would only add indirection.
+large_enum_variant = "allow"
+
+# Must live in the ROOT manifest: profiles in member crates are ignored by cargo
+# ("profiles for the non root package will be ignored") — before 2026-09-15 the
+# release optimisation therefore never ran with LTO.
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+strip = "debuginfo"

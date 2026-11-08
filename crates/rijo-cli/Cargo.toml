@@ -1,0 +1,23 @@
+[package]
+name = "rijo"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+homepage.workspace = true
+authors.workspace = true
+rust-version.workspace = true
+description = "Rijo Code CLI — blazing-fast agentic coding harness by Rijoda Labs (binary; hot-reload tip crate)"
+
+[dependencies]
+rijo-core = { version = "0.1.0", path = "../rijo-core" }
+rijo-tui = { version = "0.1.0", path = "../rijo-tui" }
+tokio = { version = "1", features = ["full"] }
+subsecond = { git = "https://github.com/DioxusLabs/dioxus", package = "subsecond" }
+tracing = "0.1"
+serde_json = "1.0.151"
+serde = { version = "1", features = ["derive"] }
+rmcp = { version = "3.5", features = ["transport-io"] }
+
+[lints]
+workspace = true

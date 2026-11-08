@@ -1,0 +1,33 @@
+{
+  "name": "mock-tool-smoke",
+  "description": "Fixtur fuer RIJO_LLM_MOCK: ruft JEDES registrierte Tool einmal mit harmlosen Argumenten auf. Ergebnis wird aus ~/.rijo/data/tool_trace.jsonl (ok-Flag + Fehlertext) ausgewertet — belegt, welche Tools wirklich funktionieren und welche Stubs/fehlende Abhaengigkeiten sind.",
+  "turns": [
+    {
+      "reasoning": "Smoke-Test: jedes Tool genau einmal.",
+      "tool_calls": [
+        { "name": "read_file", "arguments": { "path": "Cargo.toml" } },
+        { "name": "search_files", "arguments": { "pattern": "Registry", "target": "content", "path": "crates", "output_mode": "count" } },
+        { "name": "skills_list", "arguments": {} },
+        { "name": "skill_view", "arguments": { "name": "rijo-rust-harness" } },
+        { "name": "write_file", "arguments": { "path": ".smoke/hello.txt", "content": "hello smoke\n" } },
+        { "name": "patch", "arguments": { "path": ".smoke/hello.txt", "old_string": "hello", "new_string": "hallo" } },
+        { "name": "execute_code", "arguments": { "code": "print(1 + 1)" } },
+        { "name": "todo_list", "arguments": { "todos": [ { "content": "Smoke-Test", "status": "in_progress" } ] } },
+        { "name": "session_search", "arguments": { "query": "parallel" } },
+        { "name": "cronjob_manage", "arguments": { "action": "list" } },
+        { "name": "memory", "arguments": { "action": "add", "target": "memory", "content": "SMOKE-TEST-EINTRAG (kann geloescht werden)" } },
+        { "name": "text_to_speech", "arguments": { "text": "Smoke." } },
+        { "name": "vision_analyze", "arguments": { "image_url": "/usr/share/pixmaps/archlinux-logo.png", "question": "Was zeigt das Bild?" } },
+        { "name": "browser_navigate", "arguments": { "url": "https://example.com" } },
+        { "name": "web_extract", "arguments": { "urls": ["https://example.com"] } },
+        { "name": "web_search", "arguments": { "query": "rijo rust agent harness" } },
+        { "name": "terminal", "arguments": { "command": "echo smoke-ok" } },
+        { "name": "skill_manage", "arguments": { "action": "create", "name": "_smoke_test_skill", "category": "general", "content": "---\nname: _smoke_test_skill\ndescription: Wegwerf-Skill aus dem Smoke-Test.\n---\n\nNur zum Test.\n" } },
+        { "name": "skill_manage", "arguments": { "action": "delete", "name": "_smoke_test_skill" } }
+      ]
+    },
+    {
+      "content": "Smoke-Test durch: Ergebnisse stehen im Tool-Trace."
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+[project]
+name = "rijo-router-train"
+version = "0.1.0"
+description = "Local fine-tune + export pipeline for the Rijo Code tool-choice router (M2/M4)"
+requires-python = "==3.12.*"
+dependencies = [
+    "torch==2.5.1",
+    "transformers==4.46.3",
+    "onnx==1.17.0",
+    "onnxruntime==1.20.1",
+    "numpy==1.26.4",
+    "sentencepiece==0.2.0",
+]
+
+[tool.uv]
+# CPU-only torch: index overridden so we never pull the CUDA wheels (~2.5 GB).
+# uv resolves the +cpu variant from download.pytorch.org/whl/cpu.
+index-url = "https://pypi.org/simple"
+extra-index-url = "https://download.pytorch.org/whl/cpu"
+
+[tool.uv.sources]
+torch = { index = "pytorch-cpu" }
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true

@@ -1,0 +1,50 @@
+{
+  "name": "mock-parallel-batch",
+  "description": "Fixtur fuer RIJO_LLM_MOCK: EIN Turn mit 4 read-only Tool-Calls (search_files). Verifiziert, dass der Executor sie als Batch parallel ausfuehrt (Completion-Zeitstempel im tool_trace.jsonl liegen dicht beieinander) und die Reihenfolge im Transcript erhalten bleibt.",
+  "turns": [
+    {
+      "reasoning": "Vier unabhaengige Suchen — kann der Loop parallel abarbeiten.",
+      "tool_calls": [
+        {
+          "name": "search_files",
+          "arguments": {
+            "pattern": "is_parallel_safe",
+            "target": "content",
+            "path": "crates",
+            "output_mode": "count"
+          }
+        },
+        {
+          "name": "search_files",
+          "arguments": {
+            "pattern": "run_parallel_batch",
+            "target": "content",
+            "path": "crates",
+            "output_mode": "count"
+          }
+        },
+        {
+          "name": "search_files",
+          "arguments": {
+            "pattern": "max_concurrent_tools",
+            "target": "content",
+            "path": "crates",
+            "output_mode": "count"
+          }
+        },
+        {
+          "name": "search_files",
+          "arguments": {
+            "pattern": "buffered",
+            "target": "content",
+            "path": "crates",
+            "output_mode": "count"
+          }
+        }
+      ]
+    },
+    {
+      "content": "Vier Suchen in einem Batch ausgefuehrt."
+    }
+  ]
+}

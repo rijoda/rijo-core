@@ -1,0 +1,34 @@
+{
+  "name": "mock-context-budget",
+  "description": "Fixtur fuer RIJO_LLM_MOCK: erzeugt grosse Tool-Ausgaben ueber mehrere Turns, damit Tool-Result-Cap, Stub-Alterung und Nachrichten-Obergrenze real greifen. Mit kleineren Schwellen ueber eine Test-Config (--config) nachweisbar.",
+  "turns": [
+    {
+      "tool_calls": [
+        { "name": "terminal", "arguments": { "command": "seq 1 4000" } }
+      ]
+    },
+    {
+      "tool_calls": [
+        { "name": "read_file", "arguments": { "path": "Cargo.lock", "limit": 1500 } }
+      ]
+    },
+    {
+      "tool_calls": [
+        { "name": "search_files", "arguments": { "pattern": "the", "target": "content", "path": "crates", "output_mode": "content", "limit": 500 } }
+      ]
+    },
+    {
+      "tool_calls": [
+        { "name": "terminal", "arguments": { "command": "seq 1 3000" } }
+      ]
+    },
+    {
+      "tool_calls": [
+        { "name": "read_file", "arguments": { "path": "README.md", "limit": 200 } }
+      ]
+    },
+    {
+      "content": "Kontext-Budget-Lauf beendet."
+    }
+  ]
+}

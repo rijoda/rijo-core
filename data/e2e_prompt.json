@@ -1,0 +1,19 @@
+{
+  "name": "webapp-todo",
+  "version": "1.2.0",
+  "description": "Fixed E2E test prompt — identischer Prompt fuer wiederholbare Rijo Code-Benchmark-Laeufe",
+  "prompt": "Baue eine kleine Webapp: eine Todo-Liste im Verzeichnis ./e2e_webapp/. Anforderungen: 1) index.html mit Eingabefeld, Hinzufuegen-Button und Liste 2) style.css mit klaren, minimalen Styles 3) app.js: Todo hinzufuegen (Button + Enter-Taste), als erledigt markieren (Checkbox), loeschen, localStorage-Persistenz 4) Keine Frameworks, kein Build-Schritt.Pruefe danach: oeffne index.html im Browser nicht — pruefe stattdessen, dass alle 3 Dateien existieren, app.js auf localStorage zugreift und kein Syntaxfehler enthalten ist (node --check). Gib am Ende eine kurze Zusammenfassung der erstellten Dateien.",
+  "run": "rijo --e2e",
+  "expected_files": [
+    "index.html",
+    "style.css",
+    "app.js"
+  ],
+  "checks": {
+    "files_exist": "alle 3 Dateien vorhanden",
+    "js_parses": "node --check app.js erfolgreich",
+    "uses_localstorage": "localStorage in app.js referenziert",
+    "html_valid_structure": "index.html enthaelt <input>, <ul> oder <ul>"
+  },
+  "notes": "Runner ignoriert case; uuid session id pro Lauf; trace via tool_trace.jsonl ausgewertet."
+}

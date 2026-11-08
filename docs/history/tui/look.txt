@@ -1,0 +1,208 @@
+── Idle ──
+                                                                                                    
+  ▸ 9 words                                                                                        │
+                                                                                                   │
+✓ terminal · cargo (bg) · 412ms                                                                    ▐
+  │ started · proc_1                                                                               ▐
+                                                                                                   ▐
+✗ read_file · missing.rs · 3ms                                                                     ▐
+  │ No such file or directory                                                                      ▐
+                                                                                                   ▐
+◆ rijo ─────────────────────────────────────────────────────────────────────────────────────────── ▐
+  Running on port 8080.                                                                            ▐
+                                                                                                   ▐
+  ┃ bash                                                                                           │
+  ┃ cargo run --release                                                                            │
+                                                                                                   │
+  To stop:                                                                                         │
+                                                                                                   │
+  • kill proc_1                                                                                    │
+                                                                                                   │
+· Commands: /help · /clear · /exit                                                                 │
+ ● ready · context 4.0k of 1.0M (0%)                                                  Ctrl+O=details
+╭──────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ❯ thanks, how do I stop it?                                                                      │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+
+── Running turn ──
+                                                                                                    
+                                                                                                   │
+✓ terminal · cargo (bg) · 412ms                                                                    │
+  │ started · proc_1                                                                               ▐
+                                                                                                   ▐
+✗ read_file · missing.rs · 3ms                                                                     ▐
+  │ No such file or directory                                                                      ▐
+                                                                                                   ▐
+◆ rijo ─────────────────────────────────────────────────────────────────────────────────────────── ▐
+  Running on port 8080.                                                                            ▐
+                                                                                                   ▐
+  ┃ bash                                                                                           │
+  ┃ cargo run --release                                                                            │
+                                                                                                   │
+  To stop:                                                                                         │
+                                                                                                   │
+  • kill proc_1                                                                                    │
+                                                                                                   │
+· Commands: /help · /clear · /exit                                                                 │
+ ⠋ ✎ writing… · 0s                                                                     Ctrl+C aborts
+context ≈12k of 1.0M (1%) · 12 msg · first 620ms · turn 1.5s · cache 26% ▰▱▱▱▱                      
+╭ running… ────────────────────────────────────────────────────────────────────────────────────────╮
+│ ❯ thanks, how do I stop it?                                                                      │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+
+── Command palette + toast ──
+                                                                                                    
+  ▸ 9 words                                                                                        │
+                       ╭ Commands · / ──────────────────────────────────────╮                      │
+✓ terminal · cargo (bg)│ /update                                            │                      ▐
+  │ started · proc_1   │ /help                                              │                      ▐
+                       │ /copy                                              │                      ▐
+✗ read_file · missing.r│ /paste                                             │                      ▐
+  │ No such file or dir│ /select                                            │                      ▐
+                       │ /clear                                             │                      ▐
+◆ rijo ────────────────│ /exit                                              │───────────────────── ▐
+  Running on port 8080.│ /quit                                              │                      ▐
+                       │ /resume                                            │                      ▐
+  ┃ bash               │ /thinking                                          │                      │
+  ┃ cargo run --release│                                                    │                      │
+                       │ ↑↓ select · Enter run · Esc close                  │                      │
+  To stop:             ╰────────────────────────────────────────────────────╯                      │
+                                                                                                   │
+  • kill proc_1                                                                                    │
+                                                                               Copied to clipboard │
+· Commands: /help · /clear · /exit                                                                 │
+ ● ready · context 4.0k of 1.0M (0%)                                                  Ctrl+O=details
+╭──────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ❯ thanks, how do I stop it?                                                                      │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+
+── Confirm dialog ──
+                                                                                                    
+  ▸ 9 words                                                                                        │
+                                                                                                   │
+✓ terminal · cargo (bg) · 412ms                                                                    ▐
+  │ started · proc_1                                                                               ▐
+                                                                                                   ▐
+✗ read_file · missing.rs · 3ms                                                                     ▐
+  │ No such file or directory                                                                      ▐
+                                                                                                   ▐
+◆ rijo ─────────────────────────────────────────────────────────────────────────────────────────── ▐
+  Running on port 8080.                                                                            ▐
+                                                                                                   ▐
+  ┃ bash                                                                                           │
+  ┃ cargo run --release                                                                            │
+                  ╭ Confirm ─────────────────────────────────────────────────────╮                 │
+  To stop:        │  DELETE src/main.rs? This file will be deleted permanently.  │                 │
+                  │                                                              │                 │
+  • kill proc_1   │  (Y) Confirm      (N/Esc) Cancel                             │                 │
+                  ╰──────────────────────────────────────────────────────────────╯                 │
+· Commands: /help · /clear · /exit                                                                 │
+ ● ready · context 4.0k of 1.0M (0%)                                                  Ctrl+O=details
+╭──────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ❯ thanks, how do I stop it?                                                                      │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+
+── Question overlay ──
+                                                                                                    
+  ▸ 9 words                                                                                        │
+                                                                                                   │
+✓ terminal · cargo (bg) · 412ms                                                                    ▐
+  │ started · proc_1                                                                               ▐
+            ╭ ? question 1/2 ──────────────────────────────────────────────────────────╮           ▐
+✗ read_file │1. Welcher Befehl schlägt fehl?                                           │           ▐
+  │ No such │▸ cargo build --release                                                   │           ▐
+            │cargo test                                                                │           ▐
+◆ rijo ─────│Other …                                                                   │────────── ▐
+  Running on│2. Darf ich die Lockfile anfassen?                                        │           ▐
+            │Ja                                                                        │           ▐
+  ┃ bash    │Nein                                                                      │           │
+  ┃ cargo ru╰──────────────────────────────────────────────────────────────────────────╯           │
+                                                                                                   │
+  To stop:                                                                                         │
+                                                                                                   │
+  • kill proc_1                                                                                    │
+                                                                                                   │
+· Commands: /help · /clear · /exit                                                                 │
+ ● ready · context 4.0k of 1.0M (0%)                                                  Ctrl+O=details
+╭──────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ❯ thanks, how do I stop it?                                                                      │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+
+── Todo strip ──
+                                                                                                    
+                                                                                                   │
+✓ terminal · cargo (bg) · 412ms                                                                    │
+  │ started · proc_1                                                                               ▐
+                                                                                                   ▐
+✗ read_file · missing.rs · 3ms                                                                     ▐
+  │ No such file or directory                                                                      ▐
+                                                                                                   ▐
+◆ rijo ─────────────────────────────────────────────────────────────────────────────────────────── ▐
+  Running on port 8080.                                                                            ▐
+                                                                                                   ▐
+  ┃ bash                                                                                           │
+  ┃ cargo run --release                                                                            │
+                                                                                                   │
+  To stop:                                                                                         │
+                                                                                                   │
+  • kill proc_1                                                                                    │
+                                                                                                   │
+· Commands: /help · /clear · /exit                                                                 │
+ ● ready · context 4.0k of 1.0M (0%)                                                  Ctrl+O=details
+task ▰▱▱▱▱ 1/4  ▸ Fehler isolieren                                                           Ctrl+T 
+╭──────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ❯ thanks, how do I stop it?                                                                      │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+
+── Todo list (Ctrl+T) ──
+                                                                                                    
+                                                                                                   │
+✗ read_file · missing.rs · 3ms                                                                     │
+  │ No such file or directory                                                                      │
+                                                                                                   ▐
+◆ rijo ─────────────────────────────────────────────────────────────────────────────────────────── ▐
+  Running on port 8080.                                                                            ▐
+                                                                                                   ▐
+  ┃ bash                                                                                           ▐
+  ┃ cargo run --release                                                                            ▐
+                                                                                                   │
+  To stop:                                                                                         │
+                                                                                                   │
+  • kill proc_1                                                                                    │
+                                                                                                   │
+· Commands: /help · /clear · /exit                                                                 │
+ ● ready · context 4.0k of 1.0M (0%)                                                  Ctrl+O=details
+✔ Recherche                                                                                         
+▸ Fehler isolieren                                                                                  
+☐ Patch schreiben                                                                                   
+☐ Build + Tests                                                                                     
+╭──────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ❯ thanks, how do I stop it?                                                                      │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+
+── Long input (grown box) ──
+                                                                                                    
+                                                                                                   │
+◆ rijo ─────────────────────────────────────────────────────────────────────────────────────────── │
+  Running on port 8080.                                                                            │
+                                                                                                   │
+  ┃ bash                                                                                           ▐
+  ┃ cargo run --release                                                                            ▐
+                                                                                                   ▐
+  To stop:                                                                                         ▐
+                                                                                                   │
+  • kill proc_1                                                                                    │
+                                                                                                   │
+· Commands: /help · /clear · /exit                                                                 │
+ ● ready · context 4.0k of 1.0M (0%)                                                  Ctrl+O=details
+╭──────────────────────────────────────────────────────────────────────────────────────────────────╮
+│   Halte dich kurz.                                                                               │
+│   Bitte analysiere dieses Repository und schreibe eine kurze Zusammenfassung der Architektur, der│
+│    wichtigsten Befehle und der offenen Punkte.                                                   │
+│   Halte dich kurz.                                                                               │
+│   Bitte analysiere dieses Repository und schreibe eine kurze Zusammenfassung der Architektur, der│
+│    wichtigsten Befehle und der offenen Punkte.                                                   │
+│   Halte dich kurz.                                                                               │
+│                                                                                                  │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+

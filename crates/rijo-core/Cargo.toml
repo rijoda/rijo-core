@@ -1,0 +1,112 @@
+[package]
+name = "rijo-core"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+homepage.workspace = true
+authors.workspace = true
+rust-version.workspace = true
+description = "Rijo Core — the open engine behind Rijo Code: executor, native tools, guard, sessions, brain"
+
+[dependencies]
+# Async runtime
+tokio = { version = "1", features = ["full"] }
+async-trait = "0.1"
+ahash = "0.8"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+# MCP client (ADR 0017): consume external servers over stdio child processes.
+# Only the client half — the server half lives in `rijo-cli` (transport-io).
+rmcp = { version = "3.5", default-features = false, features = [
+    "client",
+    "transport-child-process",
+] }
+reqwest = { version = "0.12", features = ["json", "rustls-tls", "blocking", "gzip"] }
+tokio-tungstenite = "0.24"
+nanohtml2text = "0.1"
+rand = "0.9"
+rusqlite = { version = "0.32", features = ["bundled", "vtab"] }
+url = "2"
+# P1 (docs/web-search-plan.md): main-content extraction (Readability port) and
+# HTML→Markdown. Replaces the whole-page nanohtml2text path for real articles.
+dom_smoothie = { version = "0.18", default-features = false, features = ["aho-corasick"] }
+htmd = "0.5"
+clap = { version = "4", features = ["derive"] }
+notify = "7"
+regex = "1"
+quick-xml = "0.42"
+dirs = "6"
+tracing = "0.1"
+serde_yaml = "0.9"
+uuid = { version = "1", features = ["v4"] }
+chrono = "0.4"
+glob = "0.3"
+lazy_static = "1"
+shellexpand = "3"
+base64 = "0.22"
+futures-util = "0.3"
+nix = { version = "0.29", features = ["fs"] }
+self-replace = "1.5"
+tokenizers = { version = "0.22", default-features = false, features = [
+    "onig",
+] }
+
+# ONNX Runtime: the loading strategy is per target, not global.
+#
+# `ort-sys` ships prebuilt binaries for eight targets — `x86_64-pc-windows-msvc`
+# among them, `x86_64-pc-windows-gnu` not. With `download-binaries` the build
+# aborted on a Windows-GNU machine before a single line of Rijo Code compiled.
+#
+# `load-dynamic` instead loads the runtime at run time (`libloading`), which has
+# no prebuilt requirement — but it does require the shared library to be present
+# when Rijo Code runs. On Linux that would be a regression: `download-binaries` used
+# to fetch it at build time, so nothing had to be shipped.
+#
+# Cargo features are additive, so the choice cannot live in one entry — it lives
+# in two target sections, of which only one applies per build. `fastembed`'s
+# loader follows the same split, otherwise its own `ort` would pull in
+# `download-binaries` again and the Windows build would fail at `ort-sys`.
+[target.'cfg(unix)'.dependencies]
+fastembed = { version = "5", default-features = false, features = [
+    "hf-hub-native-tls",
+    "image-models",
+    "ort-download-binaries-native-tls",
+] }
+ort = { version = "2.0.0-rc.13", default-features = false, features = [
+    "download-binaries",
+    "std",
+    "api-24",
+    "ndarray",
+] }
+
+# Windows: no prebuilt for gnu, so the DLL is loaded at run time and must sit
+# next to the binary (install.ps1 places it there; `ensure_ort_dll_loaded`
+# points `ORT_DYLIB_PATH` at it). See docs/history/goal-100-de.md §Z.
+[target.'cfg(windows)'.dependencies]
+fastembed = { version = "5", default-features = false, features = [
+    "hf-hub-native-tls",
+    "image-models",
+    "ort-load-dynamic",
+] }
+ort = { version = "2.0.0-rc.13", default-features = false, features = [
+    "load-dynamic",
+    "std",
+    "api-24",
+    "ndarray",
+] }
+
+[dev-dependencies]
+# Used only by the integration tests (a local axum stub for the LLM stream retry).
+axum = "0.8"
+tempfile = "3"
+
+[features]
+default = ["full"]
+full = ["vector-db", "cdp-browser", "tts-voice"]
+vector-db = []
+cdp-browser = []
+tts-voice = []
+
+[lints]
+workspace = true

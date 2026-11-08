@@ -1,0 +1,30 @@
+/target
+.fastembed_cache/
+
+# Smoke-test artefact (rijo --e2e with data/mock_smoke.json)
+/.smoke/
+# E2E test artefact (written by rijo --e2e; regenerated on demand)
+/e2e_webapp/
+# Test artefacts of the integration tests (cwd = crate root)
+/crates/*/target/
+# Deploy copy of the release binary (51 MB, rebuilt every time; the installer
+# puts it in ~/.local/bin/rijo). Never committed.
+/rijo
+# Local service URLs and secrets (Websurfx URL) — per machine, never in the repo
+.env
+# Accidentally committed compile artefact (ar archive, not source)
+/librust_out.rlib
+# Router training runs: checkpoints of the three seeds (safetensors + .pt, 1.6 GB).
+# Reproducible with scripts/router/train.py; what production needs is the ONNX
+# bundle in ~/.rijo/models/router/v1/, not these directories.
+/runs/
+# Python venv for the router scripts (uv venv, torch/transformers, 989 MB)
+.venv/
+
+# Python bytecode (router scripts)
+__pycache__/
+*.pyc
+
+# Local UI review artefacts (the closed app has its own repository)
+/.impeccable/
+

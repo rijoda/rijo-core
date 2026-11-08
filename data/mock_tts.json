@@ -1,0 +1,14 @@
+{
+  "name": "mock-tts",
+  "description": "Fixtur fuer RIJO_LLM_MOCK: prueft die LOKALE Sprachausgabe isoliert. Erwartet: OK+audio_path, wenn ein lokales Backend installiert ist (espeak-ng oder piper + Voice-Modell); sonst eine actionable Fehlermeldung mit Installationshinweis. Kein Cloud-Pfad.",
+  "turns": [
+    {
+      "tool_calls": [
+        { "name": "text_to_speech", "arguments": { "text": "Rijo Code Sprachtest. Diese Ausgabe entsteht vollstaendig lokal, ohne Netzwerk." } }
+      ]
+    },
+    {
+      "content": "TTS-Lauf beendet."
+    }
+  ]
+}

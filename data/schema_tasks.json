@@ -1,0 +1,378 @@
+{
+  "comment": "Aufgabenkatalog fuer die Schema-Evaluation. Jede Aufgabe nennt die akzeptablen Tools (oft fuehren mehrere Wege zum Ziel, das ist Absicht) und Teilstrings, die in den Argumenten vorkommen muessen. Die Suite misst damit, ob eine gekuerzte Tool-Beschreibung die Tool-Wahl verschlechtert.",
+  "tasks": [
+    {
+      "id": "file_read_basic",
+      "category": "datei",
+      "prompt": "Zeig mir den Inhalt von crates/rijo-core/src/llm.rs",
+      "accept": [
+        "read_file"
+      ],
+      "required_args": [
+        "llm.rs"
+      ]
+    },
+    {
+      "id": "file_read_paged",
+      "category": "datei",
+      "prompt": "Lies README.md ab Zeile 100 weiter",
+      "accept": [
+        "read_file"
+      ],
+      "required_args": [
+        "README.md"
+      ]
+    },
+    {
+      "id": "file_write_new",
+      "category": "datei",
+      "prompt": "Erstelle die Datei docs/NOTES.md mit einer kurzen Zusammenfassung",
+      "accept": [
+        "write_file"
+      ],
+      "required_args": [
+        "NOTES.md"
+      ],
+      "precursor": [
+        "search_files",
+        "read_file"
+      ]
+    },
+    {
+      "id": "file_patch_value",
+      "category": "datei",
+      "prompt": "Aendere in der Config max_messages von 80 auf 120",
+      "accept": [
+        "patch",
+        "read_file"
+      ],
+      "required_args": [],
+      "precursor": [
+        "search_files"
+      ]
+    },
+    {
+      "id": "file_delete",
+      "category": "datei",
+      "prompt": "Loesche die Datei tmp/alt.txt",
+      "accept": [
+        "delete_file"
+      ],
+      "required_args": [
+        "alt.txt"
+      ]
+    },
+    {
+      "id": "search_content_regex",
+      "category": "suche",
+      "prompt": "Suche im Projekt nach allen Stellen, an denen websurfx im Code vorkommt",
+      "accept": [
+        "search_files",
+        "terminal"
+      ],
+      "required_args": [
+        "websurfx"
+      ]
+    },
+    {
+      "id": "search_files_glob",
+      "category": "suche",
+      "prompt": "Finde alle Testdateien, die auf _test.rs enden",
+      "accept": [
+        "search_files",
+        "terminal"
+      ],
+      "required_args": []
+    },
+    {
+      "id": "terminal_run_test",
+      "category": "terminal",
+      "prompt": "Fuehre die Tests von rijo-core aus",
+      "accept": [
+        "terminal"
+      ],
+      "required_args": [
+        "cargo"
+      ],
+      "precursor": [
+        "search_files"
+      ]
+    },
+    {
+      "id": "terminal_background",
+      "category": "terminal",
+      "prompt": "Starte einen HTTP-Server auf Port 8000 im Hintergrund",
+      "accept": [
+        "terminal"
+      ],
+      "required_args": [
+        "background"
+      ]
+    },
+    {
+      "id": "process_poll",
+      "category": "prozess",
+      "prompt": "Was hat der Hintergrundprozess seit dem letzten Abruf ausgegeben?",
+      "accept": [
+        "process_manage"
+      ],
+      "required_args": [
+        "poll"
+      ],
+      "precursor_args": [
+        "list"
+      ]
+    },
+    {
+      "id": "process_kill",
+      "category": "prozess",
+      "prompt": "Beende den laufenden Hintergrundprozess",
+      "accept": [
+        "process_manage"
+      ],
+      "required_args": [
+        "kill"
+      ],
+      "precursor_args": [
+        "list"
+      ]
+    },
+    {
+      "id": "process_list",
+      "category": "prozess",
+      "prompt": "Welche Hintergrundprozesse laufen gerade?",
+      "accept": [
+        "process_manage"
+      ],
+      "required_args": [
+        "list"
+      ]
+    },
+    {
+      "id": "web_search_news",
+      "category": "web",
+      "prompt": "Suche im Web nach den aktuellen Release Notes von Hyprland",
+      "accept": [
+        "web_search"
+      ],
+      "required_args": [
+        "hyprland"
+      ]
+    },
+    {
+      "id": "web_extract_url",
+      "category": "web",
+      "prompt": "Hole den Textinhalt von https://doc.rust-lang.org/book/ch01-00-getting-started.html",
+      "accept": [
+        "web_extract"
+      ],
+      "required_args": [
+        "doc.rust-lang.org"
+      ]
+    },
+    {
+      "id": "browser_open",
+      "category": "browser",
+      "prompt": "Oeffne example.com im Browser",
+      "accept": [
+        "browser_navigate"
+      ],
+      "required_args": [
+        "example.com"
+      ]
+    },
+    {
+      "id": "browser_click",
+      "category": "browser",
+      "prompt": "Klicke auf den Button mit der ID submit",
+      "accept": [
+        "browser_click"
+      ],
+      "required_args": []
+    },
+    {
+      "id": "browser_type",
+      "category": "browser",
+      "prompt": "Tippe 'hyprland' in das Suchfeld der Seite",
+      "accept": [
+        "browser_type"
+      ],
+      "required_args": [
+        "hyprland"
+      ],
+      "precursor": [
+        "browser_snapshot"
+      ]
+    },
+    {
+      "id": "browser_scroll",
+      "category": "browser",
+      "prompt": "Scrolle eine Seite nach unten",
+      "accept": [
+        "browser_scroll"
+      ],
+      "required_args": [],
+      "precursor": [
+        "browser_snapshot"
+      ]
+    },
+    {
+      "id": "browser_snapshot",
+      "category": "browser",
+      "prompt": "Was steht aktuell auf der geoeffneten Seite?",
+      "accept": [
+        "browser_snapshot"
+      ],
+      "required_args": []
+    },
+    {
+      "id": "vision_image",
+      "category": "medien",
+      "prompt": "Analysiere das Bild unter /tmp/screenshot.png",
+      "accept": [
+        "vision_analyze"
+      ],
+      "required_args": [
+        "screenshot.png"
+      ]
+    },
+    {
+      "id": "tts_speak",
+      "category": "medien",
+      "prompt": "Lies den Text 'Hallo Welt' als Sprachdatei vor",
+      "accept": [
+        "text_to_speech"
+      ],
+      "required_args": []
+    },
+    {
+      "id": "skills_list",
+      "category": "skills",
+      "prompt": "Welche Skills stehen mir zur Verfuegung?",
+      "accept": [
+        "skills_list"
+      ],
+      "required_args": []
+    },
+    {
+      "id": "skill_view_named",
+      "category": "skills",
+      "prompt": "Lade den Skill rijo-rust-harness und zeig mir, was drin steht",
+      "accept": [
+        "skill_view"
+      ],
+      "required_args": [
+        "rijo-rust-harness"
+      ]
+    },
+    {
+      "id": "skill_manage_create",
+      "category": "skills",
+      "prompt": "Lege einen neuen Skill namens deploy-check an, der die Deploy-Schritte beschreibt",
+      "accept": [
+        "skill_manage"
+      ],
+      "required_args": [
+        "deploy-check"
+      ],
+      "precursor": [
+        "skills_list",
+        "skill_view",
+        "search_files"
+      ]
+    },
+    {
+      "id": "memory_save",
+      "category": "wissen",
+      "prompt": "Merke dir dauerhaft, dass ich Antworten auf Deutsch will",
+      "accept": [
+        "memory"
+      ],
+      "required_args": []
+    },
+    {
+      "id": "todo_plan",
+      "category": "planung",
+      "prompt": "Plane die naechsten drei Arbeitsschritte als Aufgaben",
+      "accept": [
+        "todo_list"
+      ],
+      "required_args": []
+    },
+    {
+      "id": "session_recall",
+      "category": "wissen",
+      "prompt": "Was haben wir letzte Woche zum Thema Websurfx entschieden?",
+      "accept": [
+        "session_search"
+      ],
+      "required_args": [
+        "websurfx"
+      ]
+    },
+    {
+      "id": "cron_schedule",
+      "category": "planung",
+      "prompt": "Erstelle einen Job, der alle 2 Stunden einen Bericht erzeugt",
+      "accept": [
+        "cronjob_manage"
+      ],
+      "required_args": []
+    },
+    {
+      "id": "delegate_parallel",
+      "category": "agent",
+      "prompt": "Lass einen Subagenten parallel die Dokumentation pruefen",
+      "accept": [
+        "delegate_task"
+      ],
+      "required_args": []
+    },
+    {
+      "id": "clarify_question",
+      "category": "agent",
+      "prompt": "Frag mich, welche Datenbank ich verwenden will",
+      "accept": [
+        "clarify"
+      ],
+      "required_args": []
+    },
+    {
+      "id": "execute_code_python",
+      "category": "code",
+      "prompt": "Berechne mit Python die Gesamtzahl der Zeilen aller .rs-Dateien",
+      "accept": [
+        "execute_code",
+        "terminal"
+      ],
+      "required_args": []
+    },
+    {
+      "id": "patch_vs_write",
+      "category": "datei",
+      "prompt": "Ersetze in der Datei src/config.rs die Zeile mit data_dir durch data_dir_rijo",
+      "accept": [
+        "patch"
+      ],
+      "required_args": [
+        "config.rs"
+      ],
+      "precursor": [
+        "read_file",
+        "search_files"
+      ]
+    },
+    {
+      "id": "search_vs_read",
+      "category": "suche",
+      "prompt": "In welchen Dateien wird der Skill rijo-rust-harness geladen?",
+      "accept": [
+        "search_files",
+        "terminal"
+      ],
+      "required_args": [
+        "rijo-rust-harness"
+      ]
+    }
+  ]
+}

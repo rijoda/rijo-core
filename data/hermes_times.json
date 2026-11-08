@@ -1,0 +1,7 @@
+{
+  "terminal_echo_us": 5927577,
+  "read_file_us": 42903,
+  "write_file_small_us": 366943,
+  "search_files_us": 173035,
+  "skills_list_us": 441026
+}

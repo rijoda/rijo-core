@@ -1,0 +1,54 @@
+{
+  "name": "mock-todo-webapp",
+  "description": "Deterministisches Fixture fuer RIJO_LLM_MOCK: uebt den vollen Tool-Loop (write_file x3, terminal-Verifikation, finale Antwort) ohne Netz/API-Guthaben. Prueft das Harness, NICHT das LLM.",
+  "turns": [
+    {
+      "reasoning": "Drei Dateien anlegen: index.html, style.css, app.js.",
+      "tool_calls": [
+        {
+          "name": "write_file",
+          "arguments": {
+            "path": "e2e_webapp/index.html",
+            "content": "<!DOCTYPE html>\n<html lang=\"de\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <title>Todo</title>\n  <link rel=\"stylesheet\" href=\"style.css\">\n</head>\n<body>\n  <h1>Todo</h1>\n  <form id=\"todo-form\">\n    <input id=\"todo-input\" type=\"text\" placeholder=\"Was ist zu tun?\" autocomplete=\"off\">\n    <button type=\"submit\">Hinzuf\u00fcgen</button>\n  </form>\n  <ul id=\"todo-list\"></ul>\n  <script src=\"app.js\"></script>\n</body>\n</html>\n"
+          }
+        }
+      ]
+    },
+    {
+      "tool_calls": [
+        {
+          "name": "write_file",
+          "arguments": {
+            "path": "e2e_webapp/style.css",
+            "content": "*, *::before, *::after { box-sizing: border-box; }\n\nbody {\n  margin: 0;\n  padding: 2.5rem 1.25rem;\n  font: 16px/1.5 system-ui, sans-serif;\n  background: #f7f7f8;\n  color: #1a1a1e;\n}\n\nh1 { margin: 0 0 1.25rem; font-size: 1.5rem; }\n\n#todo-form { display: flex; gap: .5rem; margin-bottom: 1.25rem; }\n\n#todo-input {\n  flex: 1;\n  padding: .6rem .75rem;\n  border: 1px solid #c9c9d1;\n  border-radius: 6px;\n  font: inherit;\n}\n\n#todo-form button {\n  padding: .6rem 1rem;\n  border: 0;\n  border-radius: 6px;\n  background: #1a1a1e;\n  color: #fff;\n  font: inherit;\n  cursor: pointer;\n}\n\n#todo-list { list-style: none; margin: 0; padding: 0; }\n\n#todo-list li {\n  display: flex;\n  align-items: center;\n  gap: .75rem;\n  padding: .6rem .75rem;\n  background: #fff;\n  border: 1px solid #e4e4ea;\n  border-radius: 6px;\n  margin-bottom: .5rem;\n}\n\n#todo-list li.done span { text-decoration: line-through; color: #8b8b96; }\n#todo-list li span { flex: 1; }\n"
+          }
+        }
+      ]
+    },
+    {
+      "tool_calls": [
+        {
+          "name": "write_file",
+          "arguments": {
+            "path": "e2e_webapp/app.js",
+            "content": "const STORAGE_KEY = 'rijo-e2e-todos';\n\nconst form = document.getElementById('todo-form');\nconst input = document.getElementById('todo-input');\nconst list = document.getElementById('todo-list');\n\nlet todos = load();\n\nfunction load() {\n  try {\n    return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');\n  } catch (err) {\n    return [];\n  }\n}\n\nfunction save() {\n  localStorage.setItem(STORAGE_KEY, JSON.stringify(todos));\n}\n\nfunction render() {\n  list.textContent = '';\n  todos.forEach(function (todo, index) {\n    const item = document.createElement('li');\n    if (todo.done) item.classList.add('done');\n\n    const box = document.createElement('input');\n    box.type = 'checkbox';\n    box.checked = todo.done;\n    box.addEventListener('change', function () {\n      todos[index].done = box.checked;\n      save();\n      render();\n    });\n\n    const label = document.createElement('span');\n    label.textContent = todo.text;\n\n    const remove = document.createElement('button');\n    remove.type = 'button';\n    remove.textContent = 'L\u00f6schen';\n    remove.addEventListener('click', function () {\n      todos.splice(index, 1);\n      save();\n      render();\n    });\n\n    item.append(box, label, remove);\n    list.append(item);\n  });\n}\n\nform.addEventListener('submit', function (event) {\n  event.preventDefault();\n  const text = input.value.trim();\n  if (!text) return;\n  todos.push({ text: text, done: false });\n  input.value = '';\n  save();\n  render();\n});\n\nrender();\n"
+          }
+        }
+      ]
+    },
+    {
+      "tool_calls": [
+        {
+          "name": "terminal",
+          "arguments": {
+            "command": "ls e2e_webapp/ && node --check e2e_webapp/app.js && grep -c localStorage e2e_webapp/app.js",
+            "workdir": "."
+          }
+        }
+      ]
+    },
+    {
+      "content": "Fertig. Angelegt in e2e_webapp/: index.html (Eingabefeld, Button, Liste), style.css (minimale Styles), app.js (Hinzufuegen per Button und Enter, Erledigt-Checkbox, Loeschen, localStorage-Persistenz). Verifiziert: alle drei Dateien vorhanden, node --check ohne Syntaxfehler, localStorage in app.js referenziert."
+    }
+  ]
+}

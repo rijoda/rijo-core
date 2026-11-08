@@ -1,0 +1,144 @@
+name: CI
+
+# Minute budget: Actions minutes are billed on this private repo and Windows
+# counts double. The old pipeline cost ~38 billable minutes per push because
+# *each* matrix job also built a release binary — which the Release workflow
+# already does on tags ("Release-Build" + "Smoke-Test", on both platforms).
+# Measured on the last green run (38429298423): release build 3.2 min on Linux
+# and 6.8-7.7 min on Windows, i.e. ~17 billable minutes per push for nothing.
+# Per-push CI now stops after the debug build + tests.
+
+on:
+  push:
+    branches: [master, main]
+    # Docs and plans do not compile. Four docs-only pushes on 2026-10-13 each
+    # burned a full Linux+Windows pipeline. A push that also touches code still
+    # runs (paths-ignore skips only when *every* changed path matches).
+    paths-ignore:
+      - "**/*.md"
+      - "docs/**"
+      - ".hermes/**"
+  pull_request:
+
+# A burst of pushes (four in one evening on 2026-10-13) started four full
+# pipelines; only the newest one is signal.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  # D3 of the release plan: the engine must build in a checkout that has no
+  # desktop crate. `app/` is a separate workspace and is excluded from the root
+  # one, so this job never sees Tauri, WebView2 or the HTML UI.
+  core-only:
+    name: core only (open workspace)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+        with:
+          key: core-only
+      - name: Build the engine without a frontend
+        run: cargo check -p rijo-core
+      - name: Assert the closed desktop is not in the open workspace
+        run: |
+          ! cargo metadata --format-version 1 --no-deps \
+            | grep -q '"name":"rijo-desktop"'
+
+  test:
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+    # Was 45. Without the release build 25 is generous — and a hung job burns
+    # minutes up to the timeout.
+    timeout-minutes: 25
+    strategy:
+      # A Windows failure must not hide the Linux result, and the other way
+      # round. Both are signal.
+      fail-fast: false
+      matrix:
+        include:
+          - name: linux
+            os: ubuntu-latest
+          - name: windows
+            os: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # The runner image ships ~14 GB free, which is not enough for this
+      # workspace's debug build (ONNX runtime ~100 MB, fastembed, reqwest, …).
+      # The Android SDK and the .NET/GHC/Java toolchains ride along with the
+      # image but nothing here uses them — dropping them frees ~15 GB.
+      # `|| true` tolerates image changes where a path is already gone.
+      - name: Free disk space (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          df -h /
+          sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc \
+                      /usr/local/share/boost /opt/az /usr/lib/jvm \
+                      /opt/hostedtoolcache/CodeQL || true
+          df -h /
+
+      - name: Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Cache cargo
+        uses: Swatinem/rust-cache@v2
+        with:
+          # One cache per matrix entry. Without this both jobs share a key and
+          # the second one picks up artefacts built for the other platform.
+          key: ${{ matrix.name }}
+
+      # The ort crate fetches the ONNX runtime while building on Linux (~100 MB);
+      # that needs network and takes a few minutes on the first run.
+      - name: Build (debug, so tests are quick)
+        run: cargo build --workspace --tests
+
+      # Windows loads the runtime at run time (per-target `load-dynamic`), so the
+      # DLL has to exist before the tests that embed text. The version is the one
+      # `ort` 2.0.0-rc.13 accepts: it requires API 24 and rejects 1.20.1 with
+      # BadVersion (measured, see docs/GOAL-100.md section Z).
+      - name: ONNX Runtime (Windows only)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $version = '1.28.0'
+          $zip = Join-Path $env:RUNNER_TEMP "onnxruntime.zip"
+          $out = Join-Path $env:RUNNER_TEMP "onnxruntime"
+          $url = "https://github.com/microsoft/onnxruntime/releases/download/v$version/onnxruntime-win-x64-$version.zip"
+          Invoke-WebRequest -Uri $url -OutFile $zip -UseBasicParsing
+          Expand-Archive -Path $zip -DestinationPath $out -Force
+          $dll = Get-ChildItem $out -Recurse -Filter onnxruntime.dll | Select-Object -First 1
+          if (-not $dll) { throw 'no onnxruntime.dll in the release archive' }
+          # Test binaries live in deps/, the binary in debug/. No release profile
+          # is built here any more, so no release/ copy.
+          foreach ($dir in 'target\debug', 'target\debug\deps') {
+            New-Item -ItemType Directory -Force -Path $dir | Out-Null
+            Copy-Item $dll.FullName (Join-Path $dir 'onnxruntime.dll') -Force
+          }
+          Write-Host "onnxruntime.dll $version in place"
+
+      # rustfmt is platform-independent — one job is enough, the second one only
+      # ever repeated the same answer.
+      - name: Format check
+        if: runner.os == 'Linux'
+        run: cargo fmt --all --check
+
+      # Runs on both: this workspace has cfg(windows)/cfg(unix) modules
+      # (process.rs, clipboard.rs), so each platform has lints the other sees as
+      # dead code. Costs ~0.4 min per job.
+      - name: Clippy (deny warnings)
+        run: cargo clippy --workspace --all-targets -- -D warnings
+
+      - name: Dependency advisories + bans
+        if: runner.os == 'Linux'
+        uses: EmbarkStudios/cargo-deny-action@v2
+        with:
+          command: check advisories bans licenses
+
+      - name: Tests
+        run: cargo test --workspace -- --test-threads=4

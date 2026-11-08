@@ -1,0 +1,13 @@
+# GPU-Wheels für die Vast.ai-Instanz.
+#
+# Versionen identisch zu scripts/router/pyproject.toml, aber vom CUDA-Index
+# statt dem CPU-Index. Das pyproject pinnt torch explizit auf
+# download.pytorch.org/whl/cpu (tool.uv.sources, explicit = true) — das darf
+# auf einer GPU-Instanz NICHT benutzt werden, sonst läuft train.py auf der CPU
+# und man zahlt GPU-Speicher für CPU-Rechenzeit.
+torch==2.5.1
+transformers==4.46.3
+onnx==1.17.0
+onnxruntime==1.20.1
+numpy==1.26.4
+sentencepiece==0.2.0

@@ -1,0 +1,54 @@
+{
+  "name": "mock-process-manage",
+  "description": "Fixtur fuer RIJO_LLM_MOCK: startet Hintergrundprozesse ueber terminal(background) und steuert sie mit process_manage (list/poll/log/wait/submit/kill). In einem frischen Prozess ist die erste id proc_00000001, das Praefix 'proc_0000' ist damit eindeutig — deckt zugleich die Praefix-Aufloesung ab.",
+  "turns": [
+    {
+      "tool_calls": [
+        { "name": "terminal", "arguments": { "command": "for i in 1 2 3; do echo zeile-$i; sleep 0.4; done", "background": true } }
+      ]
+    },
+    {
+      "tool_calls": [
+        { "name": "process_manage", "arguments": { "action": "list" } }
+      ]
+    },
+    {
+      "tool_calls": [
+        { "name": "process_manage", "arguments": { "action": "poll", "session_id": "proc_0000" } }
+      ]
+    },
+    {
+      "tool_calls": [
+        { "name": "process_manage", "arguments": { "action": "log", "session_id": "proc_0000", "offset": 1, "limit": 10 } }
+      ]
+    },
+    {
+      "tool_calls": [
+        { "name": "process_manage", "arguments": { "action": "wait", "session_id": "proc_0000", "timeout": 10 } }
+      ]
+    },
+    {
+      "tool_calls": [
+        { "name": "terminal", "arguments": { "command": "read line; echo got:$line", "background": true } }
+      ]
+    },
+    {
+      "tool_calls": [
+        { "name": "process_manage", "arguments": { "action": "submit", "session_id": "proc_00000002", "data": "ping" } }
+      ]
+    },
+    {
+      "tool_calls": [
+        { "name": "process_manage", "arguments": { "action": "wait", "session_id": "proc_00000002", "timeout": 10 } }
+      ]
+    },
+    {
+      "tool_calls": [
+        { "name": "process_manage", "arguments": { "action": "poll", "session_id": "proc_00000002" } }
+      ]
+    },
+    {
+      "content": "Prozess-Lauf beendet."
+    }
+  ]
+}

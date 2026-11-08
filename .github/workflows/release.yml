@@ -1,0 +1,102 @@
+name: Release
+
+# Push a tag (e.g. `git tag v0.1.0 && git push origin v0.1.0`) — these jobs build
+# the release binary for Linux and Windows, smoke-test them and attach the
+# archives with their SHA256 to the release. `rijo-<arch>-linux.tar.gz` matches
+# `./install.sh --binary`; `rijo-x86_64-windows.zip` is a bare `rijo.exe`
+# (`install.ps1` builds from a checkout and has no `--binary` mode).
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+
+      - name: Release-Build
+        run: cargo build --release -p rijo
+
+      - name: Smoke-Test
+        run: |
+          ./target/release/rijo --version
+          RIJO_SKIP_TRUST=1 RIJO_SKIP_ONBOARD=1 ./target/release/rijo --tools | head -3
+
+      - name: Archive + checksum
+        run: |
+          ARCH="$(uname -m)"
+          NAME="rijo-${ARCH}-linux.tar.gz"
+          tar -czf "$NAME" -C target/release rijo
+          sha256sum "$NAME" > "$NAME.sha256"
+          cat "$NAME.sha256"
+
+      - name: Attach to the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          ARCH="$(uname -m)"
+          NAME="rijo-${ARCH}-linux.tar.gz"
+          TAG="${GITHUB_REF_NAME:-manual}"
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" "$NAME" "$NAME.sha256" --clobber
+          else
+            gh release create "$TAG" "$NAME" "$NAME.sha256" \
+              --title "Rijo Code $TAG" --generate-notes
+          fi
+
+  windows:
+    # Windows is a first-class platform (see the README matrix); ship its binary
+    # too. `needs: build` serialises the release creation so only one job creates
+    # it and the other uploads into it.
+    needs: build
+    runs-on: windows-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+        with:
+          key: windows-release
+
+      - name: Release-Build
+        run: cargo build --release -p rijo
+
+      - name: Smoke-Test
+        shell: pwsh
+        run: |
+          $env:RIJO_SKIP_TRUST = '1'
+          $env:RIJO_SKIP_ONBOARD = '1'
+          .\target\release\rijo.exe --version
+          .\target\release\rijo.exe --tools | Select-Object -First 3
+
+      - name: Archive + checksum
+        shell: pwsh
+        run: |
+          $name = 'rijo-x86_64-windows.zip'
+          Compress-Archive -Path target/release/rijo.exe -DestinationPath $name -Force
+          $hash = (Get-FileHash $name -Algorithm SHA256).Hash.ToLower()
+          "$hash  $name" | Out-File -Encoding ascii "$name.sha256"
+          Get-Content "$name.sha256"
+
+      - name: Attach to the release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $name = 'rijo-x86_64-windows.zip'
+          $tag = if ($env:GITHUB_REF_NAME) { $env:GITHUB_REF_NAME } else { 'manual' }
+          gh release view $tag *> $null
+          if ($LASTEXITCODE -eq 0) {
+            gh release upload $tag $name "$name.sha256" --clobber
+          } else {
+            gh release create $tag $name "$name.sha256" --title "Rijo Code $tag" --generate-notes
+          }

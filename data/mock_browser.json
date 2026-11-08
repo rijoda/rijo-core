@@ -1,0 +1,19 @@
+{
+  "name": "mock-browser-smoke",
+  "description": "Fixtur fuer RIJO_LLM_MOCK: uebt die komplette Browser-Tool-Kette ueber CDP (navigate -> snapshot -> type -> click -> scroll) auf einer data:-Seite. Belegt, dass die Tools nach dem Chromium-Autostart wirklich funktionieren.",
+  "turns": [
+    {
+      "reasoning": "Browser-Kette auf einer Testseite durchspielen.",
+      "tool_calls": [
+        { "name": "browser_navigate", "arguments": { "url": "data:text/html,<html><body><h1>Rijo Code</h1><input id=q><button id=go>Los</button><p>Absatz</p><div style='height:2000px'></div><p>Ende</p></body></html>" } },
+        { "name": "browser_snapshot", "arguments": {} },
+        { "name": "browser_type", "arguments": { "ref": "#q", "text": "hallo" } },
+        { "name": "browser_click", "arguments": { "ref": "#go" } },
+        { "name": "browser_scroll", "arguments": { "direction": "down" } }
+      ]
+    },
+    {
+      "content": "Browser-Kette durchlaufen."
+    }
+  ]
+}

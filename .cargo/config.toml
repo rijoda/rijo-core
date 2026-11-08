@@ -1,0 +1,12 @@
+# Cargo settings for a checkout of this repository.
+#
+# The ONNX Runtime is loaded dynamically (Windows GNU); without a path it picks up
+# whatever `onnxruntime.dll` happens to be on PATH, and a mismatched one aborts the
+# process. Pointing at the vendored file makes `cargo test` and `cargo run` work from
+# a fresh checkout. An already-set ORT_DYLIB_PATH wins over this value.
+#
+# The runtime lives in `vendor/onnxruntime/` — it is a third-party MIT dependency
+# (Microsoft ONNX Runtime), not part of the closed desktop app. Cargo merges this
+# config upwards, so `app/` sees the same value without a second config file.
+[env]
+ORT_DYLIB_PATH = { value = "vendor/onnxruntime/onnxruntime.dll", relative = true }
