@@ -168,7 +168,7 @@ More detail: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 
 | Claim | Value | Evidence |
 |---|---|---|
-| Tool latency vs. the Python reference | **188×–1037× faster** | [`docs/status.md`](docs/status.md) |
+| Warm tool latency vs. Hermes (same machine) | **85–241× read; 6.35–7.22× search; 7.38–9.33× terminal** | [`bench/README.md`](bench/README.md) |
 | Parallel read-only tool batches | **3.83× local, 3.69× network** | [`docs/status.md`](docs/status.md) |
 | Provider prompt-cache hit rate | **26 % → 94 %** (sorted tool schemas) | [`docs/status.md`](docs/status.md) |
 | Brain warm start | **65 s → 18 ms** (incremental indexing) | [`docs/status.md`](docs/status.md) |
@@ -176,6 +176,9 @@ More detail: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 
 All numbers were measured on real runs; the caveats and the original measurement records
 are in [`docs/status.md`](docs/status.md) and [`docs/history/`](docs/history/README.md).
+
+> The earlier `188×–1037×` tool-latency claim is **retired**: it compared a warm Rijo call
+> with single-shot Hermes calls. The fair warm run is in [`bench/README.md`](bench/README.md).
 
 ---
 

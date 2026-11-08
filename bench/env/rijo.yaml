@@ -1,0 +1,6 @@
+workspace: .
+data_dir: bench/results/rijo-data
+llm:
+  base_url: http://127.0.0.1:8080/v1
+  model: qwen3-1.7b
+  api_key: local

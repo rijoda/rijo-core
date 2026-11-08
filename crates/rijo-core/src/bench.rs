@@ -2,6 +2,7 @@
 
 use serde_json::json;
 use std::time::{Duration, Instant};
+use tokio::io::AsyncWriteExt;
 
 pub struct Benchmark {
     results: Vec<BenchResult>,
@@ -104,6 +105,68 @@ impl Benchmark {
         }
         println!("{}", "-".repeat(61));
     }
+}
+
+/// One JSON line for the benchmark worker. The output is escaped, so a tool
+/// result containing newlines cannot break the protocol.
+fn encode_response(ok: bool, elapsed_us: u64, output: &str) -> String {
+    json!({
+        "ok": ok,
+        "elapsed_us": elapsed_us,
+        "output": output,
+    })
+    .to_string()
+}
+
+/// Internal benchmark worker (`rijo --bench-stdio`).
+///
+/// Reads one `{"tool":"...","args":{...}}` object per line, dispatches exactly
+/// that tool through the normal registry (guard included), and writes one
+/// timing line back. The process stays alive, so the harness measures the tool
+/// call and not the Rust process start. A malformed line gets an error response
+/// and the loop continues.
+pub async fn run_stdio(state: std::sync::Arc<crate::AppState>) -> Result<(), String> {
+    use tokio::io::{AsyncBufReadExt, BufReader};
+
+    let mut lines = BufReader::new(tokio::io::stdin()).lines();
+    let mut stdout = tokio::io::stdout();
+    while let Some(line) = lines.next_line().await.map_err(|e| e.to_string())? {
+        let line = line.trim();
+        if line.is_empty() {
+            continue;
+        }
+        let request: serde_json::Value = match serde_json::from_str(line) {
+            Ok(value) => value,
+            Err(error) => {
+                write_response(
+                    &mut stdout,
+                    &encode_response(false, 0, &format!("invalid request: {error}")),
+                )
+                .await?;
+                continue;
+            }
+        };
+        let Some(tool) = request.get("tool").and_then(|value| value.as_str()) else {
+            write_response(&mut stdout, &encode_response(false, 0, "missing `tool`")).await?;
+            continue;
+        };
+        let args = request.get("args").cloned().unwrap_or_else(|| json!({}));
+        let started = Instant::now();
+        let output = state.tools.dispatch(tool, args, state.clone()).await;
+        let elapsed_us = started.elapsed().as_micros() as u64;
+        let ok = !output.starts_with("{\"error\":");
+        write_response(&mut stdout, &encode_response(ok, elapsed_us, &output)).await?;
+    }
+    Ok(())
+}
+
+async fn write_response(stdout: &mut tokio::io::Stdout, line: &str) -> Result<(), String> {
+    stdout
+        .write_all(line.as_bytes())
+        .await
+        .map_err(|e| e.to_string())?;
+    stdout.write_all(b"\n").await.map_err(|e| e.to_string())?;
+    stdout.flush().await.map_err(|e| e.to_string())
 }
 
 /// Headless benchmark runner for `rijo --bench`.
@@ -343,5 +406,15 @@ mod tests {
         ] {
             assert!(!is_parallel_safe(t), "{t} must NOT run in parallel");
         }
+    }
+
+    #[test]
+    fn the_bench_worker_response_is_one_json_line() {
+        let line = super::encode_response(true, 42, "a\nb");
+        assert_eq!(line.lines().count(), 1, "protocol line must not wrap");
+        let value: serde_json::Value = serde_json::from_str(&line).unwrap();
+        assert_eq!(value["ok"], true);
+        assert_eq!(value["elapsed_us"], 42);
+        assert_eq!(value["output"], "a\nb");
     }
 }

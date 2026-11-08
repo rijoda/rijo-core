@@ -12,7 +12,7 @@ and the chronological notes in [`history/readme-2026-10-18.md`](history/readme-2
 
 | Claim | Value | Where the evidence is |
 |---|---|---|
-| Tool latency vs. the Python reference | **188×–1037×** faster | history README, benchmark section |
+| Warm tool latency vs. Hermes (same machine) | **85–241×** read; **6.35–7.22×** search; **7.38–9.33×** terminal | [`bench/README.md`](../bench/README.md) |
 | Parallel read-only tool batches | **3.83×** local, **3.69×** network | history README |
 | Prompt-cache hit rate | **26 % → 94 %** (sorted tool schemas) | history README |
 | Brain warm start | **65 s → 18 ms** (incremental indexing) | history README |

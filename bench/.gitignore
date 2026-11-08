@@ -1,0 +1,5 @@
+/fixtures/
+/vendor/
+/results/*/rijo-data/
+/results/*/*.stderr.log
+__pycache__/

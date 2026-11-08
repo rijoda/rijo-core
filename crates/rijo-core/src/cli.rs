@@ -77,6 +77,12 @@ pub struct Cli {
     #[arg(long)]
     pub tools: bool,
 
+    /// Internal benchmark worker: read `{"tool","args"}` JSON lines from stdin,
+    /// dispatch one tool per line, and print one timing JSON line per call.
+    /// The process stays warm, so the harness measures dispatch, not startup.
+    #[arg(long = "bench-stdio")]
+    pub bench_stdio: bool,
+
     /// Resume the most recent session (loads history into the TUI)
     #[arg(long)]
     pub resume: bool,

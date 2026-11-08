@@ -142,6 +142,7 @@ async fn main_inner() -> Result<(), String> {
     let local_measurement = cli.download_models
         || cli.tools
         || cli.bench
+        || cli.bench_stdio
         || cli.dump_labels
         || cli.schema_report
         || cli.tui_snapshot
@@ -191,6 +192,7 @@ async fn main_inner() -> Result<(), String> {
         || cli.e2e
         || cli.bench
         || cli.tools
+        || cli.bench_stdio
         || cli.schema_eval
         || cli.schema_report
         || cli.dump_labels
@@ -203,6 +205,13 @@ async fn main_inner() -> Result<(), String> {
         || mcp_serve;
     let executor = rijo_core::executor::Executor::new_opts(config, !oneshot);
     let state = executor.state();
+
+    if cli.bench_stdio {
+        let result = rijo_core::bench::run_stdio(state.clone()).await;
+        rijo_core::tools::shutdown_cdp();
+        rijo_core::process::shutdown_all();
+        return result;
+    }
 
     if mcp_serve {
         if let Some(rijo_core::cli::Command::Mcp { action }) = &cli.command {
