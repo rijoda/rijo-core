@@ -1187,11 +1187,8 @@ mod policy_note_tests {
     #[test]
     fn leaving_the_workspace_is_named_in_the_result() {
         let workspace = Path::new("C:/work/test2");
-        let note = super::cd_outside_workspace_note(
-            "cd \"C:/work/rijo\"; cargo test",
-            workspace,
-        )
-        .expect("absolute cd outside the workspace must be flagged");
+        let note = super::cd_outside_workspace_note("cd \"C:/work/rijo\"; cargo test", workspace)
+            .expect("absolute cd outside the workspace must be flagged");
         assert!(note.contains("outside the selected workspace"), "{note}");
 
         assert!(
