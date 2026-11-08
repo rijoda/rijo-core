@@ -96,5 +96,6 @@ The full plan (OpenCode arm, E2E tasks, decision rule) is in
 - `adapters/hermes_worker.py` — JSON-lines worker around the real Hermes tools.
 - `micro/run_rijo_hermes.py` — interleaved runner.
 - `micro/analyze_rijo_hermes.py` — combines the sessions into the report.
-- `results/<timestamp>/raw/*.jsonl` — one record per call (committed).
+- `results/<timestamp>/raw/*.jsonl` — one record per call (generated; keep private or
+  sanitize before publishing).
 - `results/2026-11-08_rijo_vs_hermes.md` — the combined report.

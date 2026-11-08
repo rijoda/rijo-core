@@ -76,6 +76,7 @@ read**, with the search caveat above.
 
 ## Raw data
 
-- `bench/results/2026-11-08_194316/raw/micro_rijo_hermes.jsonl`
-- `bench/results/2026-11-08_194651/raw/micro_rijo_hermes.jsonl`
-- `bench/results/2026-11-08_194930/raw/micro_rijo_hermes.jsonl`
+The raw JSONL was captured in the private working tree
+(`bench/results/<session>/raw/micro_rijo_hermes.jsonl`). It is not published here because
+it contains local absolute paths. The harness in `bench/` regenerates it; the committed
+report above is the derived evidence.
