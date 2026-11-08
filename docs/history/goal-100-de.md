@@ -1242,7 +1242,7 @@ TUI, Websurfx lud nie, und getippter Text landete woanders.
    geht jetzt nach `<data>/websurfx-build.log`.
 3. **Websurfx braucht laut eigener Anleitung Redis** — unser Code startete nur das
    eine Binary. Zusaetzlich steht Websurfx unter AGPL-3.0, die Repos unter
-   MIT OR Apache-2.0.
+   Apache-2.0 (damals dual `MIT OR Apache-2.0`).
 4. **Der keyless-Metasuchweg ist praktisch tot.** 7 oeffentliche SearXNG-Instanzen
    am 2026-10-04 angesprochen: **0/7 brauchbar** (3x HTML bei HTTP 200, 3x sofort
    429, 1x kein JSON). Google Custom Search JSON ist fuer Neukunden geschlossen,

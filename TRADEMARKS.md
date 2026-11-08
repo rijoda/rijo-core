@@ -2,8 +2,8 @@
 
 **"Rijoda"**, **"Rijoda Labs"**, **"Rijo"** and the Rijoda logo are trademarks of Rijoda Labs.
 
-The source code is licensed under `MIT OR Apache-2.0` (see [`LICENSE-MIT`](LICENSE-MIT) and
-[`LICENSE-APACHE`](LICENSE-APACHE)). **Those licenses cover copyright only. They grant no trademark
+The source code is licensed under the **Apache License, Version 2.0** (see
+[`LICENSE-APACHE`](LICENSE-APACHE)). **That license covers copyright only. It grants no trademark
 rights.**
 
 ## You may

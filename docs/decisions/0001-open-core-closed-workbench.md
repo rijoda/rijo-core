@@ -90,7 +90,7 @@ is dropped. "Rijo Code" in prose means the product/app; **Rijo Core** means the 
 3. ~~Add a CI job that builds `rijo-core` alone.~~ **Done 2026-11-08** (*core only (open
    workspace)*), and `app/` is now a separate Cargo workspace. **Open:** make it a separate
    Git repository.
-4. Publish `rijo-core` under `MIT OR Apache-2.0`; keep the desktop repository private.
+4. Publish `rijo-core` under `Apache-2.0`; keep the desktop repository private.
 
 ## Sources / Evidence
 

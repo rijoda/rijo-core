@@ -38,7 +38,7 @@ All numbers were measured on real runs; the scripts and fixtures are in `data/` 
 
 1. **Desktop parity** — the closed Rijo Code workbench replaces the TUI once the remaining
    workflows are covered. This is tracked in the private app repository.
-2. **First public release** — publish `rijo-core` under `MIT OR Apache-2.0`, then a
+2. **First public release** — publish `rijo-core` under `Apache-2.0`, then a
    `0.x` release of the `rijo` binary (decision:
    [`decisions/0001-open-core-closed-workbench.md`](decisions/0001-open-core-closed-workbench.md)).
 
@@ -71,5 +71,5 @@ All numbers were measured on real runs; the scripts and fixtures are in `data/` 
 ## Next after the cleanup
 
 1. ~~Move the TUI out of `rijo-core` and drop the UI dependencies.~~ **Done 2026-11-08.**
-2. Publish the core under `MIT OR Apache-2.0` and ship a `0.x` CLI release.
+2. Publish the core under `Apache-2.0` and ship a `0.x` CLI release.
 3. Finish the desktop workflows (private app), then retire the TUI.

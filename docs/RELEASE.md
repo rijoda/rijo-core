@@ -6,9 +6,8 @@
       and `.env`
 - [x] History no longer contains 50 MB binaries or model caches (pack: 475 KiB;
       a backup bundle of the old history lives outside the repo)
-- [x] `LICENSE-MIT` + `LICENSE-APACHE` (dual `MIT OR Apache-2.0`, matching
-      `Cargo.toml`), `TRADEMARKS.md`, `CONTRIBUTING.md`, `DCO`, `SECURITY.md`,
-      `CHANGELOG.md`, `docs/INSTALL.md`
+- [x] `LICENSE-APACHE` (`Apache-2.0`, matching `Cargo.toml`), `TRADEMARKS.md`,
+      `CONTRIBUTING.md`, `DCO`, `SECURITY.md`, `CHANGELOG.md`, `docs/INSTALL.md`
 - [x] `install.sh` (source and binary install, `--check`, `--dry-run`,
       `--uninstall`)
 - [x] `[profile.release]` moved to the root manifest — it used to sit in a

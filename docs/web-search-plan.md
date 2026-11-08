@@ -326,7 +326,7 @@ rule: no unmeasured claims).
   (e.g., compare against Tavily's own answer on the same queries).
 - **Licensing:** `dom_smoothie` MIT, `htmd` Apache-2.0, `governor` MIT,
   `http-cache-reqwest` MIT, `texting_robots` MIT — all compatible with
-  `MIT OR Apache-2.0`. Verify each at adoption time.
+  `Apache-2.0`. Verify each at adoption time.
 
 ---
 

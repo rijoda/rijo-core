@@ -48,6 +48,8 @@ All notable changes to Rijo Core. Format follows
 
 ### Changed
 
+- **License fixed to Apache-2.0 only** — the dual `MIT OR Apache-2.0` choice was removed
+  before any external contribution existed; `LICENSE-MIT` is gone.
 - **Questions are an inline card in the conversation**, not a sidebar list: one question at
   a time with progress, selectable option rows (`1`–`9`), a `Recommended` chip, free text,
   Back/Skip and Enter to advance. Pending questions are stored with their payload and

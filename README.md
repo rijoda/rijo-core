@@ -1,7 +1,7 @@
 # Rijo Core
 
 [![CI](https://github.com/rijoda/rijo-core/actions/workflows/ci.yml/badge.svg)](https://github.com/rijoda/rijo-core/actions/workflows/ci.yml)
-[![License](https://img.shields.io/badge/license-MIT%20OR%20Apache--2.0-blue.svg)](#license)
+[![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](#license)
 
 **The open engine behind Rijo Code** — a local-first agentic coding harness in Rust,
 built by [Rijoda Labs](https://github.com/rijoda).
@@ -248,14 +248,11 @@ cargo deny check advisories bans licenses
 
 ## License
 
-Licensed under either of
+Licensed under the **Apache License, Version 2.0** ([`LICENSE-APACHE`](LICENSE-APACHE)).
 
-- Apache License, Version 2.0 ([`LICENSE-APACHE`](LICENSE-APACHE))
-- MIT license ([`LICENSE-MIT`](LICENSE-MIT))
-
-at your option. Unless you explicitly state otherwise, any contribution intentionally
-submitted for inclusion in this project shall be dual licensed as above, without additional
-terms or conditions.
+Unless you explicitly state otherwise, any contribution intentionally submitted for
+inclusion in this project shall be licensed under the same terms, without additional
+conditions.
 
 **Rijoda**, **Rijoda Labs** and **Rijo** are trademarks of Rijoda Labs. See
 [`TRADEMARKS.md`](TRADEMARKS.md).

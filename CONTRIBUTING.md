@@ -32,5 +32,5 @@ contribution under this project's license.
 
 ## Licensing of contributions
 
-Contributions are dual-licensed as **`MIT OR Apache-2.0`**, matching the project. See
-[`LICENSE-MIT`](LICENSE-MIT), [`LICENSE-APACHE`](LICENSE-APACHE) and [`TRADEMARKS.md`](TRADEMARKS.md).
+Contributions are licensed under the **Apache License, Version 2.0**, matching the
+project. See [`LICENSE-APACHE`](LICENSE-APACHE) and [`TRADEMARKS.md`](TRADEMARKS.md).
