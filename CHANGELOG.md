@@ -1,8 +1,12 @@
 # Changelog
 
-All notable changes to Rijo Code. Format follows
+All notable changes to Rijo Core. Format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versioning follows
 [SemVer](https://semver.org/).
+
+> Entries before 2026-11-08 describe the Rijo Code project **before** the repository split;
+> they include the desktop workbench, which now lives in the private `rijoda/rijo-code`
+> repository. They are kept as history, not as a description of this open core.
 
 ## [Unreleased]
 
