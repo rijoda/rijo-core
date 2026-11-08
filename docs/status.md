@@ -61,8 +61,7 @@ All numbers were measured on real runs; the scripts and fixtures are in `data/` 
 - **The guard is a text heuristic, not a sandbox.** An interpreter switch, a dropped script,
   base64 or runtime assembly gets past it. The real boundary is the Rijo Box.
 - **The brain has no graph layer:** the `edges` table exists but nothing writes to it.
-- **CI currently proves nothing:** since 2026-10-13 the jobs do not start because of the
-  GitHub Actions billing limit. Local runs are the source of truth.
+- **CI is new here.** The private development repository had a GitHub Actions billing\n  block since 2026-10-13; this public repository runs the same workflow. Local runs remain\n  the source of truth until the first green matrix is recorded.
 - **The TUI is frozen** and will be rebuilt, not extended.
 
 ## Next after the cleanup
